@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  postgres:
+    container_name: blomup_db
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${pg_database}
+      POSTGRES_USER: ${pg_user}
+      POSTGRES_PASSWORD: ${pg_password}
+    ports:
+      - "${pg_port}:5432"
+
+  api:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgres://${pg_user}:${pg_password}@${pg_host}:${pg_port}/${pg_database}
+    ports:
+      - "80:8000"
+      - "443:8000"
+    depends_on:
+      - postgres
