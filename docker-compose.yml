@@ -22,8 +22,7 @@ services:
     environment:
       DATABASE_URL: postgres://${pg_user}:${pg_password}@${pg_host}:${pg_port}/${pg_database}
     ports:
-      - "80:8000"
-      - "433:8000"
+      - "8000:8000"
     depends_on:
       - postgres
     networks:
