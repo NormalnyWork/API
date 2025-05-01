@@ -23,3 +23,11 @@ class EmailAlreadyRegistered(AppExceptionCase):
 
     def __init__(self) -> None:
         super().__init__(self.status_code, self.message)
+
+
+class NameAlreadyRegistered(AppExceptionCase):
+    message = "Name already registered"
+    status_code = 400
+
+    def __init__(self) -> None:
+        super().__init__(self.status_code, self.message)

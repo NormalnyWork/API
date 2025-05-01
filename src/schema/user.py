@@ -4,6 +4,7 @@ from utils import get_password_hash
 
 
 class UserBase(BaseModel):
+    name: str | None = None
     email: EmailStr | None = None
     password: str | None = None
 
@@ -17,6 +18,7 @@ class UserBase(BaseModel):
 
 
 class UserIn(BaseModel):
+    name: str
     email: EmailStr
     password: str
 
@@ -32,6 +34,7 @@ class UserIn(BaseModel):
 
 class UserOut(BaseModel):
     id: int
+    name: str
     email: EmailStr
 
     class Config:
