@@ -11,6 +11,8 @@ services:
       POSTGRES_PASSWORD: ${pg_password}
     ports:
       - "${pg_port}:5432"
+    networks:
+      - blomup_net
 
   api:
     restart: always
@@ -24,3 +26,9 @@ services:
       - "443:8000"
     depends_on:
       - postgres
+    networks:
+      - blomup_net
+
+networks:
+  blomup_net:
+    driver: bridge
