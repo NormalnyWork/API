@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from database import get_session
 from routers.auth import get_current_user
+from schema.error import ErrorResponse
 from schema.http_exeption import HttpException400, HttpException401
 from schema.plant import PlantIn, PlantOut
 from schema.user import UserOut
@@ -25,9 +26,40 @@ async def create_plant(
     return plant_id
 
 
-@router.get("", responses=responses)
+@router.get("", responses={
+    404: {
+        "model": ErrorResponse,
+        "description": "404\n- plant_not_found"},
+})
 async def get_plant(
         current_user: UserOut = Depends(get_current_user),
         db: Session = Depends(get_session)) -> list[PlantOut]:
     plants = PlantService(db).get_plants(current_user.id)
     return plants
+
+
+@router.patch("/{plant_id}", responses={
+    404: {
+        "model": ErrorResponse,
+        "description": "404\n- plant_not_found"},
+})
+async def update_plant(
+        plant_id: int,
+        plant_patch: PlantIn,
+        current_user: UserOut = Depends(get_current_user),
+        db: Session = Depends(get_session)
+) -> None:
+    plant = PlantService(db).update_plant(plant_id, current_user.id, plant_patch)
+    return plant
+
+@router.delete("/{plant_id}", responses={
+    404: {
+        "model": ErrorResponse,
+        "description": "404\n- plant_not_found"},
+})
+async def delete_plant(
+        plant_id: int,
+        current_user: UserOut = Depends(get_current_user),
+        db: Session = Depends(get_session)
+) -> None:
+    PlantService(db).delete_plant(plant_id, current_user.id)

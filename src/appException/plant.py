@@ -2,7 +2,7 @@ from utils.app_exception import AppExceptionCase
 
 
 class PlantNotFound(AppExceptionCase):
-    message = "Plant not found"
+    message = "plant_not_found"
     status_code = 404
 
     def __init__(self) -> None:

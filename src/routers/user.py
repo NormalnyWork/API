@@ -6,12 +6,12 @@ from const import defaultNULL
 from database import get_session, User
 from routers.auth import get_current_user, oauth2_scheme
 from schema.error import ErrorResponse
-from schema.http_exeption import HttpException400
+from schema.http_exeption import HttpException400, HttpException401
 from schema.user import UserIn, UserOut, UserBase
 from service.user_service import UserService
 
 responses = {
-    400: {"model": HttpException400},
+    400: {"model": HttpException400}, 401: {"model": HttpException401}
 }
 
 router = APIRouter(tags=["User"], responses=responses)
@@ -28,7 +28,11 @@ async def create_user(user: UserIn, db: Session = Depends(get_session)) -> int:
     return user_id
 
 
-@router.get("/user", response_model=UserOut)
+@router.get("/user", response_model=UserOut, responses={
+    404: {
+        "model": ErrorResponse,
+        "description": "404\n- user_not_found"},
+})
 async def get_user(
     current_user: UserOut = Depends(get_current_user),
     db: Session = Depends(get_session),

@@ -16,7 +16,7 @@ class HttpException401(BaseModel):
     status_code: int = Field(401, description="The status code", example=401)  # type: ignore
     error: ExceptionContent = Field(
         ExceptionContent(
-            **{"type": "HTTP_401_UNAUTHORIZED", "message": "Unauthorized"}
+            **{"type": "HTTP_401_UNAUTHORIZED", "message": "unauthorized"}
         ),
         description="The error content for unauthorized access",
     )

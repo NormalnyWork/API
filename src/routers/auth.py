@@ -13,6 +13,7 @@ from schema.auth import ALGORITHM
 from schema.auth import REFRESH_TOKEN_EXPIRE_MINUTES
 from schema.auth import SECRET_KEY
 from schema.auth import Token
+from schema.error import ErrorResponse
 from schema.http_exeption import HttpException400
 from schema.http_exeption import HttpException401
 from schema.user import UserOut
@@ -55,12 +56,12 @@ async def decode_token(token: str = Depends(oauth2_scheme)) -> int:
     if token is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not authenticated",
+            detail="not_authenticated",
             headers={"WWW-Authenticate": "Bearer"},
         )
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
+        detail="сould_not_validate_credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
@@ -82,26 +83,30 @@ async def get_current_user(
     except appException.NotFound:
         credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
+            detail="сould_not_validate_credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
         raise credentials_exception
 
 
-@router.post("/token", response_model=Token)
+@router.post("/token", response_model=Token, responses={
+    406: {
+        "model": ErrorResponse,
+        "description": "406\n- incorrect_username_or_password"
+    }})
 async def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_session)
 ) -> Token:
     """
     ______________________________________
-        вместо username вставляйте email(исправим)
+        вместо username вставляйте email
     ______________________________________
     """
     user = UserService(db).authenticate(form_data)
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_406_NOT_ACCEPTABLE,
-            detail="Incorrect username or password",
+            detail="incorrect_username_or_password",
             headers={"WWW-Authenticate": "Bearer"},
         )
     access_token, refresh_token = get_user_credits(user.id)
@@ -120,7 +125,6 @@ async def refresh_token(
     """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
