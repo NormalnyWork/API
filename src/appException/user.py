@@ -4,13 +4,13 @@ from utils.app_exception import AppExceptionCase
 class NotFound(AppExceptionCase):
     def __init__(self, message: str | None = None):
         if message is None:
-            message = "User not found"
+            message = "user_not_found"
         status_code = 404
         AppExceptionCase.__init__(self, status_code, message)
 
 
 class UserNotFound(AppExceptionCase):
-    message = "User not found"
+    message = "user_not_found"
     status_code = 404
 
     def __init__(self) -> None:
@@ -18,7 +18,7 @@ class UserNotFound(AppExceptionCase):
 
 
 class EmailAlreadyRegistered(AppExceptionCase):
-    message = "Email already registered"
+    message = "email_already_registered"
     status_code = 400
 
     def __init__(self) -> None:
@@ -26,7 +26,7 @@ class EmailAlreadyRegistered(AppExceptionCase):
 
 
 class NameAlreadyRegistered(AppExceptionCase):
-    message = "Name already registered"
+    message = "name_already_registered"
     status_code = 400
 
     def __init__(self) -> None:

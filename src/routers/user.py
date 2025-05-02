@@ -5,6 +5,7 @@ import appException
 from const import defaultNULL
 from database import get_session, User
 from routers.auth import get_current_user, oauth2_scheme
+from schema.error import ErrorResponse
 from schema.http_exeption import HttpException400
 from schema.user import UserIn, UserOut, UserBase
 from service.user_service import UserService
@@ -16,7 +17,12 @@ responses = {
 router = APIRouter(tags=["User"], responses=responses)
 
 
-@router.post("/user")
+@router.post("/user", responses={
+    400: {
+        "model": ErrorResponse,
+        "description": "400 Bad Request:\n- email_already_registered\n- name_already_registered"
+    }
+})
 async def create_user(user: UserIn, db: Session = Depends(get_session)) -> int:
     user_id = UserService(db).create_user(user)
     return user_id
