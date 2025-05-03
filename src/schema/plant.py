@@ -1,9 +1,7 @@
 from enum import StrEnum
 from typing import List, Optional, Annotated
 
-from pydantic import BaseModel, Field, field_validator
-from pydantic_core.core_schema import FieldValidationInfo
-
+from pydantic import BaseModel, Field
 
 class Interval(StrEnum):
     DAY = "DAY"
@@ -19,7 +17,6 @@ class CareType(StrEnum):
 
 
 class CareIn(BaseModel):
-    type: CareType
     interval: Interval
     count: int = Field(..., ge=1)
 
@@ -32,6 +29,48 @@ class CareOut(BaseModel):
     type: CareType
     interval: Interval
     count: Annotated[int, ...]
+
+    class Config:
+        from_attributes = True
+
+
+class CareService(CareIn):
+    id: int
+
+    class Config:
+        from_attributes = True
+
+
+class PlantWithCareIn(BaseModel):
+    name: str
+    image: str
+    WATERING: Optional[CareIn] | None = None
+    HAIRCUT: Optional[CareIn] | None = None
+    ROTATION: Optional[CareIn] | None = None
+    CLEANING: Optional[CareIn] | None = None
+    TRANSPLANTATION: Optional[CareIn] | None = None
+
+    class Config:
+        extra = "forbid"
+        from_attributes = True
+
+
+class PlantOut(BaseModel):
+    id: int
+    name: str
+    image: str
+    WATERING: Optional[CareService] = None
+    HAIRCUT: Optional[CareService] = None
+    ROTATION: Optional[CareService] = None
+    CLEANING: Optional[CareService] = None
+    TRANSPLANTATION: Optional[CareService] = None
+
+    class Config:
+        from_attributes = True
+
+class PlantIn(BaseModel):
+    name: str
+    image: str
 
     # @field_validator("count")
     # @classmethod
@@ -56,25 +95,3 @@ class CareOut(BaseModel):
     #
     #     return int(seconds_in_day * multiplier / count)
 
-    class Config:
-        from_attributes = True
-
-
-
-
-class PlantIn(BaseModel):
-    name: str
-    image: str
-
-    class Config:
-        from_attributes = True
-
-
-class PlantOut(BaseModel):
-    id: int
-    name: str
-    image: str
-    care: List[CareOut]
-
-    class Config:
-        from_attributes = True

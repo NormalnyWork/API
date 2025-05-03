@@ -8,7 +8,7 @@ from database import get_session
 from routers.auth import get_current_user
 from schema.error import ErrorResponse
 from schema.http_exeption import HttpException400, HttpException401
-from schema.plant import PlantIn, PlantOut, CareType, CareIn, CareOut
+from schema.plant import PlantIn, CareType, CareIn, CareOut, PlantOut, PlantWithCareIn
 from schema.user import UserOut
 from service.plant_service import PlantService
 
@@ -19,12 +19,14 @@ responses = {
 
 router = APIRouter(prefix="/plant", tags=["Plant"], responses=responses)
 
+
 @router.post("", responses=responses)
-async def create_plant(
-        plant: PlantIn,
-        current_user: UserOut = Depends(get_current_user),
-        db: Session = Depends(get_session)) -> int:
-    plant_id = PlantService(db).create_plant(current_user.id, plant)
+async def create_plant_with_care(
+    plant: PlantWithCareIn,
+    current_user: UserOut = Depends(get_current_user),
+    db: Session = Depends(get_session)
+) -> int:
+    plant_id = PlantService(db).create_plant_with_care(current_user.id, plant)
     return plant_id
 
 
@@ -34,10 +36,10 @@ async def create_plant(
         "description": "404\n- plant_not_found"},
 })
 async def get_plant(
-        current_user: UserOut = Depends(get_current_user),
-        db: Session = Depends(get_session)) -> list[PlantOut]:
-    plants = PlantService(db).get_plants(current_user.id)
-    return plants
+    current_user: UserOut = Depends(get_current_user),
+    db: Session = Depends(get_session)
+) -> list[PlantOut]:
+    return PlantService(db).get_plants(current_user.id)
 
 
 @router.patch("/{plant_id}", responses={
@@ -54,6 +56,7 @@ async def update_plant(
     plant = PlantService(db).update_plant(plant_id, current_user.id, plant_patch)
     return plant
 
+
 @router.delete("/{plant_id}", responses={
     404: {
         "model": ErrorResponse,
@@ -67,20 +70,6 @@ async def delete_plant(
     PlantService(db).delete_plant(plant_id, current_user.id)
 
 
-@router.post("/care/{plant_id}", responses={
-    404: {
-        "model": ErrorResponse,
-        "description": "404\n- plant_not_found"},
-})
-async def create_care_plant(
-        plant_id: int,
-        care: List[CareIn],
-        current_user: UserOut = Depends(get_current_user),
-        db: Session = Depends(get_session)
-) -> list[int]:
-    care_id = PlantService(db).create_care(plant_id, current_user.id, care)
-    return care_id
-
 @router.get("/care/{care_id}", responses={
     404: {
         "model": ErrorResponse,
@@ -93,6 +82,7 @@ async def get_care(
 ) -> CareOut:
     care = PlantService(db).get_care(care_id, current_user.id)
     return care
+
 
 @router.patch("/care/{care_id}", responses={
     404: {
@@ -108,6 +98,7 @@ async def update_care(
     care = PlantService(db).update_care(care_id, current_user.id, care_patch)
     return care
 
+
 @router.delete("/care/{care_id}", responses={
     404: {
         "model": ErrorResponse,
@@ -119,3 +110,24 @@ async def delete_care(
         db: Session = Depends(get_session)
 ) -> None:
     PlantService(db).delete_care(care_id, current_user.id)
+
+# @router.post("/care/{plant_id}", responses={
+#     404: {
+#         "model": ErrorResponse,
+#         "description": "404\n- plant_not_found"},
+# })
+# async def create_care_plant(
+#         plant_id: int,
+#         care: List[CareIn],
+#         current_user: UserOut = Depends(get_current_user),
+#         db: Session = Depends(get_session)
+# ) -> list[int]:
+#     care_id = PlantService(db).create_care(plant_id, current_user.id, care)
+#     return care_id
+# @router.post("", responses=responses)
+# async def create_plant(
+#         plant: PlantIn,
+#         current_user: UserOut = Depends(get_current_user),
+#         db: Session = Depends(get_session)) -> int:
+#     plant_id = PlantService(db).create_plant(current_user.id, plant)
+#     return plant_id
