@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import BigInteger, DateTime, func, ForeignKey, Text, Integer
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database import Base
 
@@ -17,6 +17,9 @@ class Plant(Base):
         BigInteger, ForeignKey("User.id", ondelete="CASCADE"), nullable=False
     )
 
+    care: Mapped[list["Care"]] = relationship(
+        "Care", back_populates="plant", cascade="all, delete-orphan"
+    )
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
@@ -28,11 +31,21 @@ class Plant(Base):
 class Care(Base):
     __tablename__ = "Care"
 
-    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     type: Mapped[str] = mapped_column(Text, nullable=False)
     interval: Mapped[str] = mapped_column(Text, nullable=True)
     count: Mapped[int] = mapped_column(BigInteger, nullable=True)
 
+    plant_id: Mapped[int] = mapped_column(
+        BigInteger, ForeignKey("Plant.id", ondelete="CASCADE"), nullable=False
+    )
+    user_id: Mapped[int] = mapped_column(
+        BigInteger, ForeignKey("User.id", ondelete="CASCADE"), nullable=False
+    )
+
+    plant: Mapped["Plant"] = relationship(
+        "Plant", back_populates="care"
+    )
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

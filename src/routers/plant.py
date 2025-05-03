@@ -6,7 +6,7 @@ from database import get_session
 from routers.auth import get_current_user
 from schema.error import ErrorResponse
 from schema.http_exeption import HttpException400, HttpException401
-from schema.plant import PlantIn, PlantOut
+from schema.plant import PlantIn, PlantOut, CareType, CareIn, CareOut
 from schema.user import UserOut
 from service.plant_service import PlantService
 
@@ -63,3 +63,57 @@ async def delete_plant(
         db: Session = Depends(get_session)
 ) -> None:
     PlantService(db).delete_plant(plant_id, current_user.id)
+
+
+@router.post("/care/{plant_id}", responses={
+    404: {
+        "model": ErrorResponse,
+        "description": "404\n- plant_not_found"},
+})
+async def create_care_plant(
+        plant_id: int,
+        care: CareIn,
+        current_user: UserOut = Depends(get_current_user),
+        db: Session = Depends(get_session)
+) -> int:
+    care_id = PlantService(db).create_care(plant_id, current_user.id, care)
+    return care_id
+
+@router.get("/care/{care_id}", responses={
+    404: {
+        "model": ErrorResponse,
+        "description": "404\n- care_not_found"},
+})
+async def get_care(
+        care_id: int,
+        current_user: UserOut = Depends(get_current_user),
+        db: Session = Depends(get_session)
+) -> CareOut:
+    care = PlantService(db).get_care(care_id, current_user.id)
+    return care
+
+@router.patch("/care/{care_id}", responses={
+    404: {
+        "model": ErrorResponse,
+        "description": "404\n- care_not_found"},
+})
+async def update_care(
+        care_id: int,
+        care_patch: CareIn,
+        current_user: UserOut = Depends(get_current_user),
+        db: Session = Depends(get_session)
+) -> None:
+    care = PlantService(db).update_care(care_id, current_user.id, care_patch)
+    return care
+
+@router.delete("/care/{care_id}", responses={
+    404: {
+        "model": ErrorResponse,
+        "description": "404\n- care_not_found"},
+})
+async def delete_care(
+        care_id: int,
+        current_user: UserOut = Depends(get_current_user),
+        db: Session = Depends(get_session)
+) -> None:
+    PlantService(db).delete_care(care_id, current_user.id)
