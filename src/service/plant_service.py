@@ -56,7 +56,7 @@ class PlantService(DefaultService):
         plant = self.session.query(Plant).filter_by(id=plant_id, user_id=user_id).first()
         if not plant:
             raise appException.plant.PlantNotFound()
-        care_db = Care(type=care.care_type, interval=care.interval, count=care.count, plant_id=plant_id, user_id=user_id)
+        care_db = Care(type=care.type, interval=care.interval, count=care.count, plant_id=plant_id, user_id=user_id)
 
         self.session.add(care_db)
         self.session.commit()
