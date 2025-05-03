@@ -9,7 +9,7 @@ from database import Base
 class Plant(Base):
     __tablename__ = "Plant"
 
-    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     name: Mapped[str] = mapped_column(Text, nullable=False)
     image: Mapped[str] = mapped_column(Text, nullable=False)
 
