@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import APIRouter
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
@@ -72,10 +74,10 @@ async def delete_plant(
 })
 async def create_care_plant(
         plant_id: int,
-        care: CareIn,
+        care: List[CareIn],
         current_user: UserOut = Depends(get_current_user),
         db: Session = Depends(get_session)
-) -> int:
+) -> list[int]:
     care_id = PlantService(db).create_care(plant_id, current_user.id, care)
     return care_id
 

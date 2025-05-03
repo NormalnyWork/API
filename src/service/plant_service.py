@@ -52,16 +52,25 @@ class PlantService(DefaultService):
         self.session.delete(plant)
         self.session.commit()
 
-    def create_care(self, plant_id: int, user_id: int, care: CareIn):
+    def create_care(self, plant_id: int, user_id: int, care: list[CareIn]) -> list[int]:
         plant = self.session.query(Plant).filter_by(id=plant_id, user_id=user_id).first()
         if not plant:
             raise appException.plant.PlantNotFound()
-        care_db = Care(type=care.type, interval=care.interval, count=care.count, plant_id=plant_id, user_id=user_id)
 
-        self.session.add(care_db)
+        care_db_list = []
+        for care in care:
+            care_db = Care(
+                type=care.type,
+                interval=care.interval,
+                count=care.count,
+                plant_id=plant_id,
+                user_id=user_id
+            )
+            care_db_list.append(care_db)
+            self.session.add(care_db)
+
         self.session.commit()
-        return care_db.id
-
+        return [care.id for care in care_db_list]
     def get_care(self, care_id: int, user_id: int) -> CareOut:
         care = self.session.query(Care).filter_by(id=care_id, user_id=user_id).first()
         if not care:
