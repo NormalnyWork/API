@@ -19,7 +19,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    env_file: .env
     environment:
       DATABASE_URL: postgres://${pg_user}:${pg_password}@${pg_host}:${pg_port}/${pg_database}
       aws_access_key_id: ${aws_access_key_id}
