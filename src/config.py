@@ -40,6 +40,8 @@ class Settings(BaseSettings, extra=Extra.ignore):
     pg_password: str = ''
     pg_port: str = ''
     pg_database: str = ''
+    aws_access_key_id: str = ''
+    aws_secret_access_key: str = ''
 
     class Config:
         env_file = '../.env'

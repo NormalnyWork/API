@@ -124,28 +124,30 @@ class PlantService(DefaultService):
         self.session.delete(care)
         self.session.commit()
 
+    def put_update_plant(self, plant_id: int, user_id: int, plant_patch: PlantWithCareIn) -> None:
+        plant = (
+            self.session.query(Plant)
+            .options(joinedload(Plant.care))
+            .filter_by(user_id=user_id, id=plant_id)
+            .first()
+        )
+        if not plant:
+            raise appException.plant.PlantNotFound()
 
-    # def create_care(self, plant_id: int, user_id: int, care: list[CareIn]) -> list[int]:
-    #     plant = self.session.query(Plant).filter_by(id=plant_id, user_id=user_id).first()
-    #     if not plant:
-    #         raise appException.plant.PlantNotFound()
-    #
-    #     care_db_list = []
-    #     for care in care:
-    #         care_db = Care(
-    #             type=care.type,
-    #             interval=care.interval,
-    #             count=care.count,
-    #             plant_id=plant_id,
-    #             user_id=user_id
-    #         )
-    #         care_db_list.append(care_db)
-    #         self.session.add(care_db)
-    #
-    #     self.session.commit()
-    #     return [care.id for care in care_db_list]
-    # def create_plant(self, user_id: int, plant: PlantIn) -> int:
-    #     db_plant = Plant(name=plant.name, image=plant.image, user_id=user_id)
-    #     self.session.add(db_plant)
-    #     self.session.commit()
-    #     return db_plant.id
+        plant.name = plant_patch.name
+        plant.image = plant_patch.image
+
+        self.session.query(Care).filter_by(plant_id=plant_id, user_id=user_id).delete()
+
+        for care_type, care_data in plant_patch.dict(exclude_unset=True).items():
+            if care_type not in ["name", "image"] and care_data:
+                new_care = Care(
+                    type=care_type,
+                    interval=care_data['interval'],
+                    count=care_data['count'],
+                    plant_id=plant_id,
+                    user_id=user_id
+                )
+                self.session.add(new_care)
+
+        self.session.commit()

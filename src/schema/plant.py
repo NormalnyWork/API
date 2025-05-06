@@ -11,6 +11,7 @@ class Interval(StrEnum):
 class CareType(StrEnum):
     WATERING = "WATERING"
     HAIRCUT = "HAIRCUT"
+    FERTILIZE = "FERTILIZE"
     ROTATION = "ROTATION"
     CLEANING = "CLEANING"
     TRANSPLANTATION = "TRANSPLANTATION"
@@ -46,6 +47,7 @@ class PlantWithCareIn(BaseModel):
     image: str
     WATERING: Optional[CareIn] | None = None
     HAIRCUT: Optional[CareIn] | None = None
+    FERTILIZE: Optional[CareIn] = None
     ROTATION: Optional[CareIn] | None = None
     CLEANING: Optional[CareIn] | None = None
     TRANSPLANTATION: Optional[CareIn] | None = None
@@ -61,6 +63,7 @@ class PlantOut(BaseModel):
     image: str
     WATERING: Optional[CareService] = None
     HAIRCUT: Optional[CareService] = None
+    FERTILIZE: Optional[CareService] = None
     ROTATION: Optional[CareService] = None
     CLEANING: Optional[CareService] = None
     TRANSPLANTATION: Optional[CareService] = None

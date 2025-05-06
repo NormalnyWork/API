@@ -57,6 +57,20 @@ async def update_plant(
     return plant
 
 
+@router.put("/{plant_id}", responses={
+    404: {
+        "model": ErrorResponse,
+        "description": "404\n- plant_not_found"},
+})
+async def update_plant_with_care(
+    plant_id: int,
+    plant_patch: PlantWithCareIn,
+    current_user: UserOut = Depends(get_current_user),
+    db: Session = Depends(get_session)
+) -> None:
+    PlantService(db).put_update_plant(plant_id, current_user.id, plant_patch)
+
+
 @router.delete("/{plant_id}", responses={
     404: {
         "model": ErrorResponse,
