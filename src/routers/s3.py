@@ -1,11 +1,13 @@
 import io
 import uuid
 
-from fastapi import File, UploadFile, APIRouter
+from fastapi import File, UploadFile, APIRouter, Depends
 import boto3
 from botocore.client import Config
 
 from config import get_settings
+from routers.auth import get_current_user
+from schema.user import UserOut
 
 settings = get_settings()
 
@@ -24,7 +26,7 @@ BUCKET_NAME = 'blum-bucket'
 
 
 @router.post("/upload")
-async def upload_file(file: UploadFile = File(...)):
+async def upload_file(file: UploadFile = File(...), current_user: UserOut = Depends(get_current_user)):
     file_data = await file.read()
 
     unique_filename = f"{uuid.uuid4().hex}_{file.filename}"
@@ -38,4 +40,4 @@ async def upload_file(file: UploadFile = File(...)):
 
     file_url = f"https://storage.yandexcloud.net/{BUCKET_NAME}/{unique_filename}"
 
-    return {"filename": unique_filename, "message": "Файл успешно загружен", "file_url": file_url}
+    return {"filename": unique_filename, "file_url": file_url}
