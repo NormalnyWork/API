@@ -8,6 +8,7 @@ from starlette.responses import JSONResponse
 
 from config import get_settings
 from database import Base, engine
+from scheduler.task_scheduler import start_scheduler
 from utils import include_routers
 from utils.app_exception import AppExceptionCase, app_exception_handler
 
@@ -48,6 +49,7 @@ async def validation_exception_handler(
 async def startup():
     Base.metadata.create_all(bind=engine)
     include_routers(app, __file__)
+    start_scheduler()
 
 
 if __name__ == '__main__':

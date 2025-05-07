@@ -1,7 +1,6 @@
 from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
 
-import appException
 from const import defaultNULL
 from database import get_session, User
 from routers.auth import get_current_user, oauth2_scheme
@@ -45,7 +44,7 @@ async def delete_user(current_user: UserOut = Depends(get_current_user), db: Ses
     UserService(db).delete_user(current_user.id)
 
 
-@router.patch("/user")
+@router.patch("/user", responses={200: defaultNULL})
 async def update_user(
     user: UserBase,
     current_user: UserOut = Depends(get_current_user),

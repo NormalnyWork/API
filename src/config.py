@@ -42,6 +42,7 @@ class Settings(BaseSettings, extra=Extra.ignore):
     pg_database: str = ''
     aws_access_key_id: str = ''
     aws_secret_access_key: str = ''
+    firebase_credentials_path: str = ''
 
     class Config:
         env_file = '../.env'

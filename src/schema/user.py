@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, field_validator
+from pydantic import BaseModel, EmailStr, field_validator, Field
 
 from utils import get_password_hash
 
@@ -7,6 +7,10 @@ class UserBase(BaseModel):
     name: str | None = None
     email: EmailStr | None = None
     password: str | None = None
+    fcm_token: str | None = None
+    timezone: str | None = None
+    workday_start: int | None = None
+    workday_end: int | None = None
 
     @field_validator("password")
     @classmethod
@@ -21,6 +25,10 @@ class UserIn(BaseModel):
     name: str
     email: EmailStr
     password: str
+    fcm_token: str | None = None
+    timezone: str | None = None
+    workday_start: int = Field(9)
+    workday_end: int = Field(18)
 
     @field_validator("password")
     @classmethod
@@ -36,6 +44,9 @@ class UserOut(BaseModel):
     id: int
     name: str
     email: EmailStr
+    timezone: str | None = None
+    workday_start: int
+    workday_end: int
 
     class Config:
         from_attributes = True

@@ -46,6 +46,9 @@ class Care(Base):
     plant: Mapped["Plant"] = relationship(
         "Plant", back_populates="care"
     )
+    user: Mapped["User"] = relationship(
+        "User", back_populates="cares"
+    )
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
