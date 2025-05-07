@@ -26,7 +26,7 @@ class UserIn(BaseModel):
     email: EmailStr
     password: str
     fcm_token: str | None = None
-    timezone: str | None = None
+    timezone: str = Field("UTC")
     workday_start: int = Field(9)
     workday_end: int = Field(18)
 
