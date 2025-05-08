@@ -67,21 +67,15 @@ def generate_distribution_dates(interval: str, count: int, user, tz: str, start_
     elif interval == Interval.WEEK:
         total_days = 7
         daily_slots = total_days // count if count <= total_days else 1
-        total_minutes = (user.workday_end - user.workday_start) * 60
-        step_minutes = total_minutes // (count + 1)
         tz = ZoneInfo(tz)
         for i in range(count):
             day_offset = i * daily_slots
-            time_offset = step_minutes * (i + 1)
-            hour = user.workday_start + time_offset // 60
-            minute = time_offset % 60
             local_dt = (start_time + timedelta(days=day_offset)).replace(
-                hour=hour,
-                minute=minute,
+                hour=9,
+                minute=0,
                 second=0,
                 microsecond=0,
                 tzinfo=tz
-
             )
 
             dates.append(local_dt)
@@ -95,9 +89,7 @@ def generate_distribution_dates(interval: str, count: int, user, tz: str, start_
         for i in range(count):
             day = 1 + step * (i + 1)
             day = min(day, days_in_month)
-            hour = random.randint(user.workday_start, user.workday_end - 1)
-            minute = random.choice([0, 15, 30, 45])
-            dt = datetime(year, month, day, hour, minute, tzinfo=tz)
+            dt = datetime(year, month, day, 9, 0, tzinfo=tz)
             dates.append(dt)
 
     return sorted(dates)
