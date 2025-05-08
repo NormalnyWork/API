@@ -65,26 +65,39 @@ def generate_distribution_dates(interval: str, count: int, user, tz: str, start_
             dates.append(dt)
 
     elif interval == Interval.WEEK:
+        total_days = 7
+        daily_slots = total_days // count if count <= total_days else 1
+        total_minutes = (user.workday_end - user.workday_start) * 60
+        step_minutes = total_minutes // (count + 1)
+        tz = ZoneInfo(tz)
         for i in range(count):
-            day_offset = (i * 7) // count
-            hour = random.randint(user.workday_start, user.workday_end - 1)
-            dt = start_time + timedelta(days=day_offset)
-            dt = dt.replace(hour=hour, minute=0, second=0, microsecond=0)
-            dates.append(dt)
+            day_offset = i * daily_slots
+            time_offset = step_minutes * (i + 1)
+            hour = user.workday_start + time_offset // 60
+            minute = time_offset % 60
+            local_dt = (start_time + timedelta(days=day_offset)).replace(
+                hour=hour,
+                minute=minute,
+                second=0,
+                microsecond=0,
+                tzinfo=tz
+
+            )
+
+            dates.append(local_dt)
 
     elif interval == Interval.MONTH:
+        tz = ZoneInfo(tz)
         year = start_time.year
         month = start_time.month
         days_in_month = calendar.monthrange(year, month)[1]
-
-        used_days = set()
-        for _ in range(count):
-            while True:
-                day = random.randint(1, days_in_month)
-                if day not in used_days:
-                    used_days.add(day)
-                    break
-            dt = datetime(year, month, day, user.workday_start, 0, tzinfo=ZoneInfo(tz))
+        step = days_in_month // (count + 1)
+        for i in range(count):
+            day = 1 + step * (i + 1)
+            day = min(day, days_in_month)
+            hour = random.randint(user.workday_start, user.workday_end - 1)
+            minute = random.choice([0, 15, 30, 45])
+            dt = datetime(year, month, day, hour, minute, tzinfo=tz)
             dates.append(dt)
 
     return sorted(dates)
