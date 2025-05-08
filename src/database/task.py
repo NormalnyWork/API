@@ -13,9 +13,12 @@ class Task(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     care_id: Mapped[int] = mapped_column(ForeignKey("Care.id", ondelete="CASCADE"))
     user_id: Mapped[int] = mapped_column(ForeignKey("User.id", ondelete="CASCADE"))
+    plant_id: Mapped[int] = mapped_column(ForeignKey("Plant.id", ondelete="CASCADE"))
 
-    title: Mapped[str] = mapped_column(Text, nullable=False)
+    care_type: Mapped[str] = mapped_column(Text, nullable=False)
     status: Mapped[str] = mapped_column(Enum(TaskStatus), default=TaskStatus.PENDING)
+
+    plant = relationship("Plant", back_populates="tasks")
 
     scheduled_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())

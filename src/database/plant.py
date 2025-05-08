@@ -21,6 +21,10 @@ class Plant(Base):
         "Care", back_populates="plant", cascade="all, delete-orphan"
     )
 
+    tasks: Mapped[list["Task"]] = relationship(
+        "Task", back_populates="plant"
+    )
+
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
