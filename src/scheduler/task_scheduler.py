@@ -42,10 +42,10 @@ def start_scheduler():
 #             )
 #         finally:
 #             db.close()
-
-    scheduler.add_job(
-        job,
-        trigger=DateTrigger(run_date=run_time),
-        id=f"task_push_{task_id}",
-        replace_existing=True,
-    )
+#
+#     scheduler.add_job(
+#         job,
+#         trigger=DateTrigger(run_date=run_time),
+#         id=f"task_push_{task_id}",
+#         replace_existing=True,
+#     )
