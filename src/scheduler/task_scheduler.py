@@ -1,11 +1,9 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.date import DateTrigger
-from datetime import datetime
-from sqlalchemy.orm import Session
 
 from database import SessionLocal, Task, User
-from service.fcm_service import send_fcm_notification
+# from service.fcm_service import send_fcm_notification
 from service.task_service import generate_tasks
 
 scheduler = BackgroundScheduler(timezone="UTC")
