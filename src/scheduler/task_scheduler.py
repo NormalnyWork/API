@@ -23,27 +23,27 @@ def start_scheduler():
     scheduler.start()
 
 
-def schedule_fcm_push(task_id: int, run_time: datetime):
-    def job():
-        db = Session()
-        try:
-            task = db.get(Task, task_id)
-            if not task:
-                return
-
-            user = db.get(User, task.user_id)
-            if not user or not user.fcm_token:
-                return
-
-            plant_name = task.plant.name if task.plant else "растения"
-
-            send_fcm_notification(
-                token=user.fcm_token,
-                title="Напоминание 🌿",
-                body=f"Пора {task.care_type} для {plant_name}"
-            )
-        finally:
-            db.close()
+# def schedule_fcm_push(task_id: int, run_time: datetime):
+#     def job():
+#         db = Session()
+#         try:
+#             task = db.get(Task, task_id)
+#             if not task:
+#                 return
+#
+#             user = db.get(User, task.user_id)
+#             if not user or not user.fcm_token:
+#                 return
+#
+#             plant_name = task.plant.name if task.plant else "растения"
+#
+#             send_fcm_notification(
+#                 token=user.fcm_token,
+#                 title="Напоминание 🌿",
+#                 body=f"Пора {task.care_type} для {plant_name}"
+#             )
+#         finally:
+#             db.close()
 
     scheduler.add_job(
         job,
