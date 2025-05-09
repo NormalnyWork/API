@@ -17,4 +17,4 @@ def send_fcm_notification(token: str, title: str, body: str):
         token=token,
     )
     response = messaging.send(message)
-    return response #Доделать пуши
+    return response
