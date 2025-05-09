@@ -23,6 +23,7 @@ services:
       DATABASE_URL: postgres://${pg_user}:${pg_password}@${pg_host}:${pg_port}/${pg_database}
       aws_access_key_id: ${aws_access_key_id}
       aws_secret_access_key: ${aws_secret_access_key}
+      firebase_credentials_path: ${firebase_credentials_path}
     ports:
       - "80:8000"
       - "433:8000"
