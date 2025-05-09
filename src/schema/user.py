@@ -25,10 +25,6 @@ class UserIn(BaseModel):
     name: str
     email: EmailStr
     password: str
-    fcm_token: str | None = None
-    timezone: str = Field("UTC")
-    workday_start: int = Field(9)
-    workday_end: int = Field(18)
 
     @field_validator("password")
     @classmethod

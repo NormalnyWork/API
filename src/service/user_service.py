@@ -18,11 +18,7 @@ class UserService(DefaultService):
 
         db_user = User(name=user.name,
                        email=user.email,
-                       password=user.password,
-                       fcm_token=user.fcm_token,
-                       timezone=user.timezone,
-                       workday_start=user.workday_start,
-                       workday_end=user.workday_end)
+                       password=user.password)
         self.session.add(db_user)
         self.session.commit()
         self.session.refresh(db_user)

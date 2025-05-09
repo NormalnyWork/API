@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from const import defaultNULL
 from database import get_session, User
-from routers.auth import get_current_user, oauth2_scheme
+from routers.auth import get_current_user
 from schema.error import ErrorResponse
 from schema.http_exeption import HttpException400, HttpException401
 from schema.user import UserIn, UserOut, UserBase
