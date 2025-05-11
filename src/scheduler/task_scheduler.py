@@ -20,34 +20,28 @@ def start_scheduler():
         finally:
             db.close()
 
-    scheduler.start()
+    @scheduler.scheduled_job(CronTrigger(minute='*/1'))
+    def check_scheduled_tasks():
+        now = datetime.utcnow().replace(second=0, microsecond=0)
 
-
-def schedule_fcm_push(task_id: int, run_time: datetime):
-    def job():
-        db = Session()
+        db = SessionLocal()
         try:
-            task = db.get(Task, task_id)
-            if not task:
-                return
+            tasks = db.query(Task).filter(Task.scheduled_at == now).all()
+            for task in tasks:
+                user = db.get(User, task.user_id)
+                if not user or not user.fcm_token:
+                    continue
 
-            user = db.get(User, task.user_id)
-            if not user or not user.fcm_token:
-                return
+                plant_name = task.plant.name if task.plant else "растения"
 
-            plant_name = task.plant.name if task.plant else "растения"
-
-            send_fcm_notification(
-                token=user.fcm_token,
-                title="Напоминание 🌿",
-                body=f"Пора {task.care_type} для {plant_name}"
-            )
+                print(f"Отправляем пуш по задаче #{task.id} на {now}")
+                send_fcm_notification(
+                    token=user.fcm_token,
+                    title="Напоминание 🌿",
+                    body=f"Пора {task.care_type} для {plant_name}"
+                )
         finally:
             db.close()
 
-    scheduler.add_job(
-        job,
-        trigger=DateTrigger(run_date=run_time),
-        id=f"task_push_{task_id}",
-        replace_existing=True,
-    )
+
+    scheduler.start()

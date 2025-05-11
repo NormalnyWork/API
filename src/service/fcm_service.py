@@ -10,11 +10,17 @@ firebase_admin.initialize_app(cred)
 
 def send_fcm_notification(token: str, title: str, body: str):
     message = messaging.Message(
-        notification=messaging.Notification(
-            title=title,
-            body=body
-        ),
+        data={
+            "title": title,
+            "body": body,
+            "type": "care_reminder",
+            "extra_info": "something_optional"
+        },
         token=token,
     )
-    response = messaging.send(message)
+    try:
+        response = messaging.send(message)
+        print(f"FCM отправлено: {response}")
+    except Exception as e:
+        print(f"Ошибка при отправке FCM: {e}")
     return response
