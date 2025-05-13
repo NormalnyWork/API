@@ -21,6 +21,7 @@ def send_fcm_notification(token: str, title: str, body: str):
     try:
         response = messaging.send(message)
         print(f"FCM отправлено: {response}")
+        return response
     except Exception as e:
         print(f"Ошибка при отправке FCM: {e}")
-    return response
+        return None
