@@ -1,8 +1,8 @@
+from zoneinfo import ZoneInfo
+
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
-from apscheduler.triggers.date import DateTrigger
 from datetime import datetime
-from sqlalchemy.orm import Session
 
 from database import SessionLocal, Task, User
 from service.fcm_service import send_fcm_notification
@@ -22,26 +22,31 @@ def start_scheduler():
 
     @scheduler.scheduled_job(CronTrigger(minute='*/1'))
     def check_scheduled_tasks():
-        now = datetime.utcnow().replace(second=0, microsecond=0)
+        now_utc = datetime.utcnow().replace(second=0, microsecond=0)
 
         db = SessionLocal()
         try:
-            tasks = db.query(Task).filter(Task.scheduled_at == now).all()
+            tasks = db.query(Task).all()
+
             for task in tasks:
                 user = db.get(User, task.user_id)
                 if not user or not user.fcm_token:
                     continue
 
-                plant_name = task.plant.name if task.plant else "растения"
+                user_tz = ZoneInfo(user.timezone)
+                task_time_local = task.scheduled_at.astimezone(user_tz)
+                now_local = now_utc.replace(tzinfo=ZoneInfo("UTC")).astimezone(user_tz)
 
-                print(f"Отправляем пуш по задаче #{task.id} на {now}")
-                send_fcm_notification(
-                    token=user.fcm_token,
-                    title="Напоминание 🌿",
-                    body=f"Пора {task.care_type} для {plant_name}"
-                )
+                if task_time_local.replace(second=0, microsecond=0) == now_local:
+                    plant_name = task.plant.name if task.plant else "растения"
+                    print(f"⏰ Отправляем пуш по задаче #{task.id} на {task_time_local}")
+
+                    send_fcm_notification(
+                        token=user.fcm_token,
+                        title="Напоминание 🌿",
+                        body=f"Пора {task.care_type} для {plant_name}"
+                    )
         finally:
             db.close()
-
 
     scheduler.start()

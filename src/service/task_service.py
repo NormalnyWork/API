@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import select, update
 
 import appException
-from database import Care, Task, TaskStatus
+from database import Care, Task, TaskStatus, User
 from schema.plant import Interval
 import calendar
 
@@ -13,17 +13,27 @@ from service.service import DefaultService
 
 class TaskService(DefaultService):
     def get_today_tasks(self, user_id: int) -> list:
-        now = datetime.utcnow()
-        today_start = datetime(now.year, now.month, now.day)
+        user = self.session.get(User, user_id)
+        if not user:
+            return []
+
+        tz = ZoneInfo(user.timezone)
+        now_local = datetime.now(tz)
+        today_start = now_local.replace(hour=0, minute=0, second=0, microsecond=0)
         today_end = today_start + timedelta(days=1)
         yesterday_start = today_start - timedelta(days=1)
+
+        today_start_utc = today_start.astimezone(ZoneInfo("UTC"))
+        today_end_utc = today_end.astimezone(ZoneInfo("UTC"))
+        now_utc = now_local.astimezone(ZoneInfo("UTC"))
 
         today_tasks = self.session.scalars(
             select(Task)
             .options(joinedload(Task.plant))
             .where(Task.user_id == user_id)
-            .where(Task.scheduled_at >= today_start)
-            .where(Task.scheduled_at < today_end)
+            .where(Task.scheduled_at >= today_start_utc)
+            .where(Task.scheduled_at < today_end_utc)
+            .where(Task.scheduled_at <= now_utc)
         ).all()
 
         today_keys = {(t.care_id, t.user_id, t.plant_id) for t in today_tasks}
@@ -33,8 +43,8 @@ class TaskService(DefaultService):
             .options(joinedload(Task.plant))
             .where(Task.user_id == user_id)
             .where(Task.status == TaskStatus.OVERDUE)
-            .where(Task.scheduled_at >= yesterday_start)
-            .where(Task.scheduled_at < today_start)
+            .where(Task.scheduled_at >= yesterday_start.astimezone(ZoneInfo("UTC")))
+            .where(Task.scheduled_at < today_start_utc)
         ).all()
 
         filtered_overdue = [
@@ -124,7 +134,7 @@ def generate_distribution_dates(interval: str, count: int, user, tz: str, start_
     elif interval == Interval.WEEK:
         total_days = 7
         daily_slots = total_days // count if count <= total_days else 1
-        tz = ZoneInfo(tz)
+        tz = ZoneInfo(user.timezone)
         for i in range(count):
             day_offset = i * daily_slots
             local_dt = (start_time + timedelta(days=day_offset)).replace(
@@ -138,7 +148,7 @@ def generate_distribution_dates(interval: str, count: int, user, tz: str, start_
             dates.append(local_dt)
 
     elif interval == Interval.MONTH:
-        tz = ZoneInfo(tz)
+        tz = ZoneInfo(user.timezone)
         year = start_time.year
         month = start_time.month
         days_in_month = calendar.monthrange(year, month)[1]
@@ -185,13 +195,19 @@ def generate_tasks(db: Session):
                 start_time=now_local
             )
 
+            UTC = ZoneInfo("UTC")
             for scheduled_time in distribution:
+
+
                 task = Task(
                     care_id=care.id,
                     user_id=user.id,
                     plant_id=care.plant_id,
                     care_type=care.type,
-                    scheduled_at=scheduled_time,
+                    scheduled_at=(
+                         scheduled_time
+                         if scheduled_time.tzinfo
+                         else scheduled_time.replace(tzinfo=ZoneInfo(user.timezone))).astimezone(UTC),
                     status=TaskStatus.PENDING,
                 )
                 db.add(task)

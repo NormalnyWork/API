@@ -1,4 +1,5 @@
 from typing import List
+from zoneinfo import ZoneInfo
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -37,7 +38,7 @@ async def get_today_tasks(
         TaskOut(
             id=task.id,
             care_type=task.care_type,
-            scheduled_at=task.scheduled_at,
+            scheduled_at=task.scheduled_at.astimezone(ZoneInfo(current_user.timezone)),
             status=task.status,
             plant_name=task.plant.name,
             plant_image=task.plant.image
