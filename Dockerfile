@@ -1,5 +1,5 @@
 FROM python:3.12-alpine
-ENV TZ='Asia/Yekaterinburg'
+ENV TZ='UTC'
 
 RUN apk add --no-cache tzdata
 
