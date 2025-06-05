@@ -1,5 +1,5 @@
 from enum import StrEnum
-from typing import List, Optional, Annotated
+from typing import Optional, Annotated
 
 from pydantic import BaseModel, Field
 
@@ -71,30 +71,12 @@ class PlantOut(BaseModel):
     class Config:
         from_attributes = True
 
+
+class GuideOut(PlantWithCareIn):
+    info: str
+
+
 class PlantIn(BaseModel):
     name: str
     image: str
-
-    # @field_validator("count")
-    # @classmethod
-    # def convert_count_to_seconds(cls, count, info):
-    #     interval = info.data.get("interval")
-    #
-    #     if not interval:
-    #         raise ValueError("Interval must be provided to calculate count")
-    #
-    #     seconds_in_day = 86400
-    #     multiplier = {
-    #         Interval.DAY: 1,
-    #         Interval.WEEK: 7,
-    #         Interval.MONTH: 30,
-    #     }.get(interval)
-    #
-    #     if not multiplier:
-    #         raise ValueError(f"Unknown interval: {interval}")
-    #
-    #     if count == 0:
-    #         raise ValueError("Count must be greater than 0")
-    #
-    #     return int(seconds_in_day * multiplier / count)
 

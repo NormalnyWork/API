@@ -9,7 +9,7 @@ from database import get_session
 from routers.auth import get_current_user
 from schema.error import ErrorResponse
 from schema.http_exeption import HttpException400, HttpException401
-from schema.plant import PlantIn, CareType, CareIn, CareOut, PlantOut, PlantWithCareIn
+from schema.plant import PlantIn, CareIn, CareOut, PlantOut, PlantWithCareIn, GuideOut
 from schema.user import UserOut
 from service.plant_service import PlantService
 
@@ -129,3 +129,30 @@ async def delete_care(
         db: Session = Depends(get_session)
 ) -> None:
     PlantService(db).delete_care(care_id, current_user.id)
+
+
+@router.get("/guide", response_model=List[GuideOut])
+async def get_guide(
+        current_user: UserOut = Depends(get_current_user),
+        db: Session = Depends(get_session)
+) -> List[GuideOut]:
+    guide = PlantService(db).get_guide()
+    return guide
+
+
+@router.get("/guide/{name}",
+    responses={
+        200: {"model": GuideOut},
+        404: {
+            "model": ErrorResponse,
+            "description": "404\n- plant_not_found"
+        }
+    }
+)
+async def get_plant_by_name(
+    name: str,
+    current_user: UserOut = Depends(get_current_user),
+    db: Session = Depends(get_session)
+) -> GuideOut:
+    plant = PlantService(db).get_plant_by_name(name)
+    return plant

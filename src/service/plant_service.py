@@ -1,10 +1,14 @@
+import json
+from pathlib import Path
+
 from sqlalchemy.orm import joinedload
 
 import appException
 from database.plant import Plant, Care
-from schema.plant import PlantIn, CareOut, CareIn, PlantOut, PlantWithCareIn
+from schema.plant import PlantIn, CareOut, CareIn, PlantOut, PlantWithCareIn, GuideOut
 from service.service import DefaultService
 
+GUIDE_PATH = Path("plant_guide/guide.json")
 
 class PlantService(DefaultService):
     def create_plant_with_care(self, user_id: int, plant: PlantWithCareIn) -> int:
@@ -151,3 +155,35 @@ class PlantService(DefaultService):
                 self.session.add(new_care)
 
         self.session.commit()
+
+    def get_guide(self) -> list[GuideOut]:
+        with open(GUIDE_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        return [self._map_plant(plant) for plant in data]
+
+    def _map_plant(self, plant: dict) -> GuideOut:
+        care_types = {
+            care["type"]: CareIn(interval=care["interval"], count=care["count"])
+            for care in plant.get("care", [])
+        }
+
+        return GuideOut(
+            name=plant["name"],
+            image=plant["image"],
+            info=plant["info"],
+            **care_types
+        )
+
+    def get_plant_by_name(self, name: str) -> GuideOut:
+        with open(GUIDE_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        name_lower = name.lower()
+        for plant in data:
+            if name_lower in plant["name"].lower():
+                return self._map_plant(plant)
+
+        raise appException.plant.PlantNotFound()
+
+

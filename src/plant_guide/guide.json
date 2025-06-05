@@ -1,0 +1,11 @@
+[
+  {
+    "name": "Фикус",
+    "image": "ficus.jpg",
+    "info": "Фикус — неприхотливое растение...",
+    "care": [
+      { "type": "WATERING", "count": 5, "interval": "MONTH" },
+      { "type": "CLEANING", "count": 1, "interval": "DAY" }
+    ]
+  }
+]
