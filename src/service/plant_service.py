@@ -8,7 +8,7 @@ from database.plant import Plant, Care
 from schema.plant import PlantIn, CareOut, CareIn, PlantOut, PlantWithCareIn, GuideOut
 from service.service import DefaultService
 
-GUIDE_PATH = Path("plant_guide/guide.json")
+GUIDE_PATH = Path("src/plant_guide/guide.json")
 
 class PlantService(DefaultService):
     def create_plant_with_care(self, user_id: int, plant: PlantWithCareIn) -> int:
