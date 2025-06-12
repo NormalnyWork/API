@@ -1,7 +1,7 @@
 [
   {
     "name": "Фикус",
-    "image": "ficus.jpg",
+    "image": "https://storage.yandexcloud.net/blum-bucket/3067a69934194b6d80dc1e6128fbf497_Screenshot from 2025-06-12 19-10-08.png",
     "info": "Фикус — неприхотливое растение...",
     "care": [
       { "type": "WATERING", "count": 5, "interval": "MONTH" },
