@@ -153,6 +153,6 @@ async def get_plant_by_name(
     name: str,
     current_user: UserOut = Depends(get_current_user),
     db: Session = Depends(get_session)
-) -> GuideOut:
-    plant = PlantService(db).get_plant_by_name(name)
-    return plant
+) -> List[GuideOut]:
+    guide = PlantService(db).get_plant_by_name(name)
+    return guide

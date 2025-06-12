@@ -175,15 +175,20 @@ class PlantService(DefaultService):
             **care_types
         )
 
-    def get_plant_by_name(self, name: str) -> GuideOut:
+    def get_plant_by_name(self, name: str) -> list[GuideOut]:
         with open(GUIDE_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
 
-        name_lower = name.lower()
-        for plant in data:
-            if name_lower in plant["name"].lower():
-                return self._map_plant(plant)
+        matched = [
+            self._map_plant(plant)
+            for plant in data
+            if name.lower() in plant["name"].lower()
+        ]
 
-        raise appException.plant.PlantNotFound()
+        if not matched:
+            raise appException.plant.PlantNotFound()
+
+        return matched
+
 
 

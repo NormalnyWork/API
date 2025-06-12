@@ -7,5 +7,33 @@
       { "type": "WATERING", "count": 5, "interval": "MONTH" },
       { "type": "CLEANING", "count": 1, "interval": "DAY" }
     ]
+  },
+  {
+    "name": "Гортензия",
+    "image": "hortensia.jpg",
+    "info": "Гортензия — пышноцветущее растение, требующее регулярного полива.",
+    "care": [
+      { "type": "WATERING", "count": 3, "interval": "WEEK" },
+      { "type": "FERTILIZE", "count": 1, "interval": "MONTH" },
+      { "type": "HAIRCUT", "count": 1, "interval": "MONTH" }
+    ]
+  },
+  {
+    "name": "Фекалии",
+    "image": "fiolka.jpg",
+    "info": "Фекалии — вкусно на вкус и на запах.",
+    "care": [
+      { "type": "WATERING", "count": 2, "interval": "WEEK" },
+      { "type": "FERTILIZE", "count": 1, "interval": "MONTH" }
+    ]
+  },
+  {
+    "name": "Финик",
+    "image": "finik.jpg",
+    "info": "Финик — экзотическое растение с перистыми листьями.",
+    "care": [
+      { "type": "WATERING", "count": 1, "interval": "WEEK" },
+      { "type": "ROTATION", "count": 1, "interval": "MONTH" }
+    ]
   }
 ]
