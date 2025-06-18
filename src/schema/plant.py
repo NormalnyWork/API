@@ -7,6 +7,7 @@ class Interval(StrEnum):
     DAY = "DAY"
     WEEK = "WEEK"
     MONTH = "MONTH"
+    YEAR = "YEAR"
 
 class CareType(StrEnum):
     WATERING = "WATERING"

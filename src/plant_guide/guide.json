@@ -1,39 +1,169 @@
 [
   {
+    "name": "Гортензия",
+    "image": "https://images.pexels.com/photos/18478453/pexels-photo-18478453.jpeg",
+    "info": "Компактная комнатная гортензия с крупными шаровидными соцветиями розовых, голубых или белых оттенков. Любит обильный полив мягкой водой, кислую почву и яркий рассеянный свет в прохладном помещении.",
+    "care": [
+      { "type": "WATERING", "interval": "WEEK", "count": 2 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 },
+      { "type": "ROTATION", "interval": "WEEK", "count": 1 },
+      { "type": "CLEANING", "interval": "MONTH", "count": 1 }
+    ]
+  },
+  {
     "name": "Фикус",
     "image": "https://storage.yandexcloud.net/blum-bucket/3067a69934194b6d80dc1e6128fbf497_Screenshot from 2025-06-12 19-10-08.png",
-    "info": "Фикус — неприхотливое растение...",
+    "info": "Вечнозелёное деревце с мелкими блестящими листьями. Популярное неприхотливое комнатное растение, известное способностью очищать воздух.",
     "care": [
-      { "type": "WATERING", "count": 5, "interval": "MONTH" },
-      { "type": "CLEANING", "count": 1, "interval": "DAY" }
+      { "type": "WATERING", "interval": "WEEK", "count": 1 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 },
+      { "type": "ROTATION", "interval": "WEEK", "count": 1 },
+      { "type": "CLEANING", "interval": "MONTH", "count": 1 }
     ]
   },
   {
-    "name": "Гортензия",
-    "image": "hortensia.jpg",
-    "info": "Гортензия — пышноцветущее растение, требующее регулярного полива.",
+    "name": "Монстера",
+    "image": "https://storage.yandexcloud.net/blum-bucket/4cf01831b6f14b4680174d80cdd83b26_Monstera.jpg",
+    "info": "Тропическое лиановидное растение с большими рассечёнными листьями и воздушными корнями. Ценится за эффектный экзотический вид и относительно простой уход.",
     "care": [
-      { "type": "WATERING", "count": 3, "interval": "WEEK" },
-      { "type": "FERTILIZE", "count": 1, "interval": "MONTH" },
-      { "type": "HAIRCUT", "count": 1, "interval": "MONTH" }
+      { "type": "WATERING", "interval": "WEEK", "count": 1 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 },
+      { "type": "ROTATION", "interval": "MONTH", "count": 1 },
+      { "type": "CLEANING", "interval": "MONTH", "count": 1 }
     ]
   },
   {
-    "name": "Фекалии",
-    "image": "fiolka.jpg",
-    "info": "Фекалии — вкусно на вкус и на запах.",
+    "name": "Спатифиллум",
+    "image": "https://storage.yandexcloud.net/blum-bucket/a8cb94a575e8406596a08c9da31bbdd0_spatifillium.jpeg",
+    "info": "Вечнозелёное травянистое растение с большими зелёными листьями и белыми цветками-покрывальцами. Неприхотливо, хорошо растёт и обильно цветёт при рассеянном свете.",
     "care": [
-      { "type": "WATERING", "count": 2, "interval": "WEEK" },
-      { "type": "FERTILIZE", "count": 1, "interval": "MONTH" }
+      { "type": "WATERING", "interval": "WEEK", "count": 2 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 },
+      { "type": "CLEANING", "interval": "MONTH", "count": 1 }
     ]
   },
   {
-    "name": "Финик",
-    "image": "finik.jpg",
-    "info": "Финик — экзотическое растение с перистыми листьями.",
+    "name": "Драцена",
+    "image": "https://storage.yandexcloud.net/blum-bucket/02e79c226e9947d0a5bc86618dcf168a_dracena.jpeg",
+    "info": "Декоративное комнатное растение с длинными узкими листьями на древесном стволике, напоминающее миниатюрную пальму. Выносливо и нетребовательно, эффективно очищает воздух в помещении.",
     "care": [
-      { "type": "WATERING", "count": 1, "interval": "WEEK" },
-      { "type": "ROTATION", "count": 1, "interval": "MONTH" }
+      { "type": "WATERING", "interval": "WEEK", "count": 1 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 },
+      { "type": "ROTATION", "interval": "WEEK", "count": 1 },
+      { "type": "CLEANING", "interval": "MONTH", "count": 1 }
+    ]
+  },
+  {
+    "name": "Сансевиерия",
+    "image": "https://storage.yandexcloud.net/blum-bucket/e42441069ba141b888951146d072afc9_sanseveriya.jpeg",
+    "info": "Очень неприхотливый суккулент с жёсткими вертикальными листьями мечевидной формы. Хорошо переносит полутень и редкий полив, один из самых выносливых комнатных растений.",
+    "care": [
+      { "type": "WATERING", "interval": "MONTH", "count": 2 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 },
+      { "type": "CLEANING", "interval": "MONTH", "count": 1 }
+    ]
+  },
+  {
+    "name": "Орхидея (Фаленопсис)",
+    "image": "https://storage.yandexcloud.net/blum-bucket/7798f8cb32dc4e73b437b1cfd0b1b83f_orxidea.jpeg",
+    "info": "Популярная комнатная орхидея с кожистыми листьями и эффектными цветками, напоминающими бабочек. Предпочитает яркий рассеянный свет, умеренный полив и повышенную влажность воздуха.",
+    "care": [
+      { "type": "WATERING", "interval": "WEEK", "count": 1 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 2 },
+      { "type": "CLEANING", "interval": "MONTH", "count": 1 }
+    ]
+  },
+  {
+    "name": "Хлорофитум",
+    "image": "https://storage.yandexcloud.net/blum-bucket/47a235f889fd4128bcff07a93f020b9e_chrolofitum.jpeg",
+    "info": "Ампельное растение с длинными узкими зелёными или полосатыми листьями, образует свисающие розетки-«детки». Исключительно выносливое и неприхотливое, хорошо очищает воздух.",
+    "care": [
+      { "type": "WATERING", "interval": "WEEK", "count": 1 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 }
+    ]
+  },
+  {
+    "name": "Герань (пеларгония)",
+    "image": "https://storage.yandexcloud.net/blum-bucket/ccbe6901ef7a43e4a69663a4e188c2b7_geran.jpeg",
+    "info": "Цветущий комнатный кустик с округлыми бархатистыми листьями и яркими зонтичными соцветиями. Любит солнечный свет и свежий воздух, легко размножается и долго цветёт при хорошем уходе.",
+    "care": [
+      { "type": "WATERING", "interval": "WEEK", "count": 1 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 },
+      { "type": "ROTATION", "interval": "WEEK", "count": 1 },
+      { "type": "HAIRCUT", "interval": "MONTH", "count": 1 }
+    ]
+  },
+  {
+    "name": "Замиокулькас (долларовое дерево)",
+    "image": "https://storage.yandexcloud.net/blum-bucket/93d18ff60f444844ab131171cf20d35a_zamiokulkas.jpg",
+    "info": "Комнатное растение с глянцевыми тёмно-зелёными листовыми пластинами на плотных стеблях. Очень устойчиво к недостатку света и редкому поливу, требует минимального ухода.",
+    "care": [
+      { "type": "WATERING", "interval": "MONTH", "count": 2 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 },
+      { "type": "CLEANING", "interval": "MONTH", "count": 1 }
+    ]
+  },
+  {
+    "name": "Алоэ вера",
+    "image": "https://storage.yandexcloud.net/blum-bucket/4e57b9fd5ff4487fbcefd1d06f086390_aloe.jpg",
+    "info": "Суккулент с мясистыми серо-зелёными листьями, содержащими целебный сок. Очень нетребователен: нуждается в ярком освещении и редком поливе, легко переносит засуху.",
+    "care": [
+      { "type": "WATERING", "interval": "MONTH", "count": 2 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 },
+      { "type": "ROTATION", "interval": "MONTH", "count": 1 },
+      { "type": "CLEANING", "interval": "MONTH", "count": 1 }
+    ]
+  },
+  {
+    "name": "Декабрист (шлюмбергера)",
+    "image": "https://storage.yandexcloud.net/blum-bucket/bf16f52318d44999a71378d9449478e8_decabrist.jpeg",
+    "info": "Лесной кактус с плоскими сегментированными побегами и яркими цветками, распускающимися зимой (к Рождеству). Предпочитает рассеянный свет и влажный воздух, важен умеренный полив без перелива.",
+    "care": [
+      { "type": "WATERING", "interval": "WEEK", "count": 1 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 },
+      { "type": "ROTATION", "interval": "WEEK", "count": 1 }
+    ]
+  },
+  {
+    "name": "Толстянка (денежное дерево)",
+    "image": "https://storage.yandexcloud.net/blum-bucket/0c693059839b4946b97128803de6e7a9_tolstyanka.jpeg",
+    "info": "Суккулентное деревце с толстым стволиком и мясистыми овальными листьями, напоминающими монетки. Растёт медленно, крайне неприхотливо, может долго обходиться без полива.",
+    "care": [
+      { "type": "WATERING", "interval": "MONTH", "count": 2 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 },
+      { "type": "ROTATION", "interval": "MONTH", "count": 1 },
+      { "type": "CLEANING", "interval": "MONTH", "count": 1 }
+    ]
+  },
+  {
+    "name": "Узамбарская фиалка",
+    "image": "https://storage.yandexcloud.net/blum-bucket/1874685889344d1680f2caa656557daa_fialka.jpg",
+    "info": "Небольшое растение с опушёнными округлыми листьями и нежными фиолетовыми (или другого цвета) цветками. Цветёт практически круглый год при достаточном освещении и умеренном поливе.",
+    "care": [
+      { "type": "WATERING", "interval": "WEEK", "count": 2 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 },
+      { "type": "ROTATION", "interval": "MONTH", "count": 1 }
+    ]
+  },
+  {
+    "name": "Диффенбахия",
+    "image": "https://storage.yandexcloud.net/blum-bucket/50654a4829ee49aaa6d61f2ece1f3f89_diffenhabia.jpeg",
+    "info": "Тропическое декоративно-лиственное растение с крупными пёстрыми листьями на прямом толстом стебле. Быстро растёт, любит влажность, тепло и рассеянный свет.",
+    "care": [
+      { "type": "WATERING", "interval": "WEEK", "count": 1 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 },
+      { "type": "ROTATION", "interval": "WEEK", "count": 1 },
+      { "type": "CLEANING", "interval": "MONTH", "count": 1 }
+    ]
+  },
+  {
+    "name": "Плющ (комнатный)",
+    "image": "https://storage.yandexcloud.net/blum-bucket/11cf5748496449d3807c0f884a5b9701_plush.jpg",
+    "info": "Вьющееся ампельное растение с гибкими побегами и резными вечнозелёными листьями. Может расти в полутени, часто используется для вертикального озеленения интерьера, довольно неприхотлив в уходе.",
+    "care": [
+      { "type": "WATERING", "interval": "WEEK", "count": 1 },
+      { "type": "FERTILIZE", "interval": "MONTH", "count": 1 },
+      { "type": "HAIRCUT", "interval": "MONTH", "count": 1 }
     ]
   }
 ]

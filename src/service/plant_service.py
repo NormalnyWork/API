@@ -4,6 +4,7 @@ from pathlib import Path
 from sqlalchemy.orm import joinedload
 
 import appException
+from database import Task
 from database.plant import Plant, Care
 from schema.plant import PlantIn, CareOut, CareIn, PlantOut, PlantWithCareIn, GuideOut
 from service.service import DefaultService
@@ -89,6 +90,9 @@ class PlantService(DefaultService):
         self.session.commit()
 
     def delete_plant(self, plant_id: int, user_id: int) -> None:
+        tasks = self.session.query(Task).filter_by(plant_id=plant_id).all()
+        for task in tasks:
+            self.session.delete(task)
         plant = self.session.query(Plant).filter_by(id=plant_id, user_id=user_id).first()
         if not plant:
             raise appException.plant.PlantNotFound()
