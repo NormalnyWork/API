@@ -10,8 +10,6 @@ logger = logging.getLogger(__name__)
 
 settings = get_settings()
 
-SPOT_URL = "https://api.coinbase.com/v2/prices/USDT-RUB/spot"
-
 
 def load_module(module):  # type: ignore
     # module_path = "mypackage.%s" % module
